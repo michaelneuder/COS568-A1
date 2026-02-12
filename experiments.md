@@ -7,9 +7,17 @@ Cifar10, ResNet20, RAND pruning
 
 notes: 
 - on Cifar + resnet, started with the lottery model, on which training loops seems to take about 20s each on the ionic machines
-- 
+  - Also testing with the default, model, which might be a lot slower.
 
 
 ```
-python main.py --model resnet20 --model-class lottery --dataset cifar10 --experiment singleshot --pruner rand --compression 1 --post-epoch 100 --expid cifar_rand_comp1_post100
+python main.py \
+--model resnet20 \
+--model-class default \
+--dataset cifar10 \
+--experiment singleshot \
+--pruner rand \
+--compression 1 \
+--post-epoch 100 \
+--expid cifar_rand_comp1_post100
 ```

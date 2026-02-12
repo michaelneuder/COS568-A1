@@ -14,4 +14,12 @@ echo $SLURM_NODELIST
 
 source /n/fs/mn3265cos568/COS568/torch_demo/venv/bin/activate
 
-python /n/fs/mn3265cos568/COS568/torch_demo/COS568-A1/main.py --model resnet20 --model-class lottery --model resnet20 --dataset cifar10 --experiment singleshot --pruner rand --compression 1 --post-epoch 100 --expid cifar_rand_comp1_post100 --dataset cifar10 --experiment singleshot --pruner rand --compression 1 --post-epoch 100 --expid cifar_rand_comp1_post100
+python /n/fs/mn3265cos568/COS568/torch_demo/COS568-A1/main.py \
+--model resnet20 \
+--model-class default \
+--dataset cifar10 \
+--experiment singleshot \
+--pruner rand \
+--compression 1 \
+--post-epoch 100 \
+--expid cifar_rand_comp1_post100
