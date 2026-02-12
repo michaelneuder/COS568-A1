@@ -40,3 +40,28 @@ same command as above, but now with the pruner changes and new expids.
 --pruner synflow
 --expid cifar_synflow_comp1_post100
 ```
+
+MNIST, FC, default
+- compression 1 (sparsity 10^-1)
+- post epoch 100
+
+flags
+```
+--model fc \
+--model-class default \
+--dataset mnist \
+--experiment singleshot \
+--pruner rand \
+--compression 1 \
+--post-epochs 100 \
+--expid mnist_rand_comp1_post100
+```
+
+
+***Testing accuracy (top 1)***
+
+|   Data  |   Arch |   Rand |  Mag |  SNIP |  GraSP | SynFlow       |   
+|-|-|-|-|-|-|--|
+|Cifar10 | ResNet20 |  81.73  |  85.02    |   80.19     |  79.21   |     44.20  |
+|MNIST| FC |    |      |        |      |         |
+
