@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=mnist_mag_comp1_post100
+#SBATCH --job-name=cifar_mag_post100_comp025
 #SBATCH -N 1
 #SBATCH --gres=gpu:1 --ntasks-per-node=1 -N 1
 #SBATCH --time=02:00:00             # total run time limit (HH:MM:SS)
@@ -15,11 +15,11 @@ echo $SLURM_NODELIST
 source /n/fs/mn3265cos568/COS568/torch_demo/venv/bin/activate
 
 python /n/fs/mn3265cos568/COS568/torch_demo/COS568-A1/main.py \
---model fc \
---model-class default \
---dataset mnist \
+--model resnet20 \
+--model-class lottery \
+--dataset cifar10 \
 --experiment singleshot \
 --pruner mag --pre-epochs 200 \
---compression 1 \
+--compression 0.25 \
 --post-epochs 100 \
---expid mnist_mag_comp1_post100
+--expid cifar_mag_post100_comp025
