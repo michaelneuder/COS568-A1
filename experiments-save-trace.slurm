@@ -23,3 +23,5 @@ python /n/fs/mn3265cos568/COS568/torch_demo/COS568-A1/main.py \
 --compression 1.0 \
 --save-trace \
 --expid save_trace_snip
+
+

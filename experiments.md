@@ -118,6 +118,7 @@ python /n/fs/mn3265cos568/COS568/torch_demo/COS568-A1/main.py \
 Cifar10, ResNet20, snip pruning
 - lottery model
 - compression 1 (sparsity 10^-1)
+- save-trace flag ON
 
 
 ```
@@ -131,3 +132,59 @@ python main.py \
 --save-trace \
 --expid save_trace_snip
 ```
+
+in singleshot.py, "print('Save PyTorch trace for 1 iteration on testing dataset.')" so it only saves a single inference step on the testing data, and does so after waiting for 5 warmup steps. schedule is only active for a single step, which is the one after the 5 warmup.
+
+note that it does 10 training iterations over the dataset, so it does learn pretty quickly. 
+
+output of nvidia-smi
+
+```
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 2080 Ti     On  |   00000000:3D:00.0 Off |                  N/A |
+|  0%   33C    P8             21W /  260W |       1MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+```
+
+![./trace.png](./trace.png)
+
+
+cuda time spent on convolutional layers / total inference time
+
+resnet 20 actually has 21 convolutional layers (according )
+
+total time 7.975 ms
+
+steps: 
+- Conv layer #1: 64.3 mus
+- Conv layer #2: 175.32 mus
+- Conv layer #3: 172.37 mus
+- Conv layer #4: 169.24 mus
+- Conv layer #5: 170.62 mus
+- Conv layer #6: 169.50 mus
+- Conv layer #7: 169.44 mus
+- Conv layer #8: 66.18 mus
+- Conv layer #9: 108.65 mus
+- Conv layer #10: 128.43 mus
+- Conv layer #11: 108.64 mus
+- Conv layer #12: 108.92 mus
+- Conv layer #13: 109.98 mus
+- Conv layer #14: 108.61 mus
+- Conv layer #15: 61.75 mus
+- Conv layer #16: 65.71 mus
+- Conv layer #17: 57.03 mus
+- Conv layer #18: 64.12 mus
+- Conv layer #19: 65.54 mus
+- Conv layer #20: 64.50 mus
+- Conv layer #21: 62.51 mus
+
+total kuda kernal time 2,271 mus = 2.271 ms, which is 28.5% of the total inference time.
+
+![./mult.png](./mult.png)
