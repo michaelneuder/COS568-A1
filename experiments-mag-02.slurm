@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=cifar_snip_post100_comp050
+#SBATCH --job-name=mag-02
 #SBATCH -N 1
 #SBATCH --gres=gpu:1 --ntasks-per-node=1 -N 1
 #SBATCH --time=02:00:00             # total run time limit (HH:MM:SS)
 #SBATCH --mail-type=begin,end,fail  # receive email notifications
 #SBATCH --mail-user=mn3265@cs.princeton.edu
-#SBATCH --output=/n/fs/mn3265cos568/COS568/torch_demo/out/snip-50.out
-#SBATCH --error=/n/fs/mn3265cos568/COS568/torch_demo/out/snip-50.err
+#SBATCH --output=/n/fs/mn3265cos568/COS568/torch_demo/out/mag-02.out
+#SBATCH --error=/n/fs/mn3265cos568/COS568/torch_demo/out/mag-02.err
 
 
 echo 'Your job is running on node(s):'
@@ -19,7 +19,7 @@ python /n/fs/mn3265cos568/COS568/torch_demo/COS568-A1/main.py \
 --model-class lottery \
 --dataset cifar10 \
 --experiment singleshot \
---pruner snip \
---compression 0.50 \
+--pruner mag --pre-epochs 200 \
+--compression 0.20 \
 --post-epochs 100 \
---expid cifar_snip_post100_comp050
+--expid mag-02
