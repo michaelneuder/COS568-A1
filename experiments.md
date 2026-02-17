@@ -140,9 +140,9 @@ note that it does 10 training iterations over the dataset, so it does learn pret
 output of nvidia-smi
 
 ```
-+-----------------------------------------------------------------------------------------+
++---------+
 | NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
-+-----------------------------------------+------------------------+----------------------+
++---------+--------+------+
 | GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
 | Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
 |                                         |                        |               MIG M. |
@@ -150,7 +150,7 @@ output of nvidia-smi
 |   0  NVIDIA GeForce RTX 2080 Ti     On  |   00000000:3D:00.0 Off |                  N/A |
 |  0%   33C    P8             21W /  260W |       1MiB /  11264MiB |      0%      Default |
 |                                         |                        |                  N/A |
-+-----------------------------------------+------------------------+----------------------+
++---------+--------+------+
 ```
 
 ![./trace.png](./trace.png)
@@ -196,6 +196,8 @@ it seems like a ton of time is wasted in the pruning stage, where a mask is mult
 
 Sparsity is 0.503472
 
+![./histogram.png](./histogram.png)
+
 
 ## Task 4: Quantization
 
@@ -214,6 +216,7 @@ Sparsity is 0.503472
 
 NO QUANT
 
+```
 --model resnet20 \
 --model-class lottery \
 --dataset cifar10 \
@@ -223,3 +226,19 @@ NO QUANT
 --post-epochs 100 \
 --verbose \
 --expid noquant-02
+```
+
+reading data from .err and .out files 
+
+```
+100%|██████████| 100/100 [20:46<00:00, 12.47s/it] 
+Inference time on testing dataset, post-pruning: 0.201 sec
+GPU memory allocated: 23.70 MB, peak: 243.12 MB
+```
+
+
+| Compression | Peak Mem (MB) w/ AMP | Training Time (s) w/ AMP | Peak Mem (MB) wo/ AMP | Training Time (s) wo/ AMP | 
+|-|-|-|-|-|
+| 0.2  |  243. MB  |   20m46s, 86.26%  | 439. MB | 20m18s, 85.91% |
+| 0.5  |  243. MB  |   21m06s, 85.45%  | 439. MB | 20m33s, 85.09%|
+| 1.0  |  243. MB  |   21m10s, 80.73%  | 439. MB | 20m25s, 81.04% |
