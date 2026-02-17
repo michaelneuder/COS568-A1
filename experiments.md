@@ -211,3 +211,15 @@ Sparsity is 0.503472
 --verbose \
 --expid quant-02
 ```
+
+NO QUANT
+
+--model resnet20 \
+--model-class lottery \
+--dataset cifar10 \
+--experiment singleshot \
+--pruner rand \
+--compression 0.2 \
+--post-epochs 100 \
+--verbose \
+--expid noquant-02
