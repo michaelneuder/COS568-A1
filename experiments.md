@@ -185,6 +185,29 @@ steps:
 - Conv layer #20: 64.50 mus
 - Conv layer #21: 62.51 mus
 
-total kuda kernal time 2,271 mus = 2.271 ms, which is 28.5% of the total inference time.
+total kuda kernal time 2,271 mus = 2.271 ms, which is 28.5% of the total inference time. 
+
+it seems like a ton of time is wasted in the pruning stage, where a mask is multiplied over the outputs of the convolutional layer. this requires another two round trips between the CPU and GPU. so we should either merge that in with the conv2d operation and send it a single unit to the GPU.
 
 ![./mult.png](./mult.png)
+
+
+## Task 3: The compression ratio
+
+Sparsity is 0.503472
+
+
+## Task 4: Quantization
+
+```
+--model resnet20 \
+--model-class lottery \
+--dataset cifar10 \
+--experiment singleshot \
+--pruner rand \
+--compression 0.2 \
+--post-epochs 100 \
+--quantization \
+--verbose \
+--expid quant-02
+```
